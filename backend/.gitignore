@@ -1,0 +1,91 @@
+# =====================
+# Build (Maven)
+# =====================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# =====================
+# Java / Compiled
+# =====================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# =====================
+# IDE
+# =====================
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+*.code-workspace
+
+# =====================
+# Eclipse
+# =====================
+bin/
+.loadpath
+.springBeans
+.sts4-cache
+
+# =====================
+# Logs e temporários
+# =====================
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*~
+
+# =====================
+# Sistema operacional
+# =====================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# =====================
+# Spring Boot
+# =====================
+spring-boot-devtools.properties
+*.pid
+
+# =====================
+# Testes / Cobertura
+# =====================
+*.exec
+*.ser
+coverage/
+.nyc_output/
+jacoco.exec
+*.lcov
+
+# =====================
+# Outros
+# =====================
+*.bak
+*.orig
+*.rej
