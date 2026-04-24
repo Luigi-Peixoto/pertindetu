@@ -1,5 +1,8 @@
 package com.ufrn.pertindetu.security;
 
+import com.ufrn.pertindetu.security.filters.JwtAuthenticationFilter;
+import com.ufrn.pertindetu.security.filters.RequestLoggingFilter;
+import com.ufrn.pertindetu.security.utils.CustomPermissionEvaluator;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -40,13 +43,11 @@ public class SecurityConfiguration {
     private String allowedOrigins;
 
     private static final String[] WHITE_LIST_URL = {
-            "/v1/sso/auth/refresh-token",
-            "/v1/sso/auth/login",
-            "/v1/sso/auth/validate-mfa",
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",
-            "/actuator/**"
+            "/actuator/**",
+            "/**"
     };
 
     @Bean
