@@ -10,7 +10,6 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,11 +24,15 @@ jobs:
           VALIDATE_XML: true
           VALIDATE_YAML: true
           DEFAULT_BRANCH: main
+          JAVA_FILE_NAME: java-checkstyle.xml
 
-  build-and-test:
-    name: Build & Test
+  test:
+    name: Test
     runs-on: ubuntu-latest
-
+    needs: lint
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -50,15 +53,38 @@ jobs:
       - name: Run tests
         run: mvn test -B
 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: test
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: "25"
+          distribution: "temurin"
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
       - name: Build with Maven
         run: mvn package -DskipTests -B
 
-  docker:
-    name: Docker Build & Push
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-    needs: [build-and-test, lint]
+    needs: build
     if: github.ref == 'refs/heads/main'
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -73,7 +99,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./backend
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/pertindetu-api:latest
