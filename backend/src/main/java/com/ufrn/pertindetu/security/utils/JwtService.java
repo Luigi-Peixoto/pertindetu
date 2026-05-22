@@ -21,10 +21,10 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    @Value("${sso.permission.application.name}")
+    @Value("${sso.permission.application.name:pertindetu}")
     private String applicationName;
 
-    @Value("${sso.permission.application.module.name}")
+    @Value("${sso.permission.application.module.name:api}")
     private String moduleName;
 
     public DecodedJWT decode(String token) {

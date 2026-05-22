@@ -49,9 +49,9 @@ public class ValidateTokenInCognito {
      * @throws JWTException         if there is an error initializing the JWK provider
      * @throws MalformedURLException if the JWKS URL is invalid
      */
-    public ValidateTokenInCognito(@Value("${sso.region}") String region,
-                                  @Value("${sso.cognitoUserPoolId}") String userPoolId,
-                                  @Value("${sso.cognitoClientId}") String clientId) throws JWTException, MalformedURLException {
+    public ValidateTokenInCognito(@Value("${sso.region:us-east-1}") String region,
+                                  @Value("${sso.cognitoUserPoolId:us-east-1_AbCdEfGhI}") String userPoolId,
+                                  @Value("${sso.cognitoClientId:1a2b3c4d5e6f7g8h9i0j}") String clientId) throws JWTException, MalformedURLException {
         this.clientId = clientId;
 
         String jwksUrl = String.format("https://cognito-idp.%s.amazonaws.com/%s/.well-known/jwks.json", region, userPoolId);
