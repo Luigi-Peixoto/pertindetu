@@ -33,7 +33,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
  * This class configures security filters and authentication providers for the
  * application.
  */
-@OpenAPIDefinition(info = @Info(title = "Nexus API", version = "v1", description = "Documentation of Nexus API"), security = @SecurityRequirement(name = "bearerAuth"))
+@OpenAPIDefinition(info = @Info(title = "Pertindetu API", version = "v1", description = "Documentation of Pertindetu API"), security = @SecurityRequirement(name = "bearerAuth"))
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

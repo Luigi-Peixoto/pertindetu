@@ -1,10 +1,9 @@
 package com.ufrn.pertindetu.security.utils;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.ufrn.pertindetu.base.dto.UserDetailsInfo;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,22 +20,21 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    @Value("${sso.permission.application.name}")
-    private String applicationName;
-
-    @Value("${sso.permission.application.module.name}")
-    private String moduleName;
+    @Value("${jwt.secret}")
+    private String secret;
 
     public DecodedJWT decode(String token) {
-        return JWT.decode(token);
+        return JWT.require(Algorithm.HMAC256(secret))
+                .withIssuer("pertindetu-api")
+                .build()
+                .verify(token);
     }
 
     public UserDetailsInfo getUserDetails(String token) {
         if (token == null || !token.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Invalid token format");
         }
-        DecodedJWT decodedJWT = decode(token.substring(7));
-        return getUserDetailsInfo(decodedJWT);
+        return getUserDetailsInfo(decode(token.substring(7)));
     }
 
     public UserDetailsInfo getUserDetails(DecodedJWT decodedJWT) {
@@ -46,27 +44,16 @@ public class JwtService {
     @NonNull
     private UserDetailsInfo getUserDetailsInfo(DecodedJWT decodedJWT) {
         Map<String, Claim> claims = decodedJWT.getClaims();
-
-        String id = claims.get("sub").asString();
-        String username = claims.get("name").asString();
-        String email = claims.get("email").asString();
-
-        return new UserDetailsInfo(id, username, email);
+        return new UserDetailsInfo(
+                claims.get("id").asString(),
+                claims.get("sub").asString(),
+                claims.get("role").asString()
+        );
     }
 
     public List<SimpleGrantedAuthority> getAuthorities(DecodedJWT decodedJWT) {
-        String accessData = CompressionUtils.decodeAndDecompress(decodedJWT.getClaims().get("access_data").asString());
-
-        JsonElement jsonElement = JsonParser.parseString(accessData);
-        List<String> permissions = jsonElement
-                .getAsJsonObject()
-                .getAsJsonObject("roles")
-                .getAsJsonObject(applicationName)
-                .getAsJsonArray(moduleName)
-                .asList().stream()
-                .map(JsonElement::getAsString)
-                .toList();
-
-        return permissions.stream().map(SimpleGrantedAuthority::new).toList();
+        String role = decodedJWT.getClaim("role").asString();
+        if (role == null) return List.of();
+        return List.of(new SimpleGrantedAuthority(role));
     }
 }
