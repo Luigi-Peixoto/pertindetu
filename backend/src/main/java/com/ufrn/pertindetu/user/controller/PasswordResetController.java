@@ -1,7 +1,6 @@
 package com.ufrn.pertindetu.user.controller;
 
 import com.ufrn.pertindetu.base.dto.ApiResponseDTO;
-import com.ufrn.pertindetu.base.dto.ErrorDTO;
 import com.ufrn.pertindetu.user.dto.PasswordResetConfirmDTO;
 import com.ufrn.pertindetu.user.dto.PasswordResetRequestDTO;
 import com.ufrn.pertindetu.user.service.UserService;
