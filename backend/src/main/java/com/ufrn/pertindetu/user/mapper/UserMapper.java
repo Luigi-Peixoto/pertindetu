@@ -7,7 +7,7 @@ import com.ufrn.pertindetu.user.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(config = BaseMapperConfig.class)
+@Mapper(componentModel = "spring", config = BaseMapperConfig.class)
 public interface UserMapper extends DtoMapper<User, UserDTO> {
 
     @Override
