@@ -1,4 +1,7 @@
 services:
+  # ---------------------------------
+  # 1. SERVIÇO DO BANCO DE DADOS
+  # ---------------------------------
   pertindetu-db:
     image: postgres:15-alpine
     environment:
@@ -10,6 +13,30 @@ services:
       - "5432:5432"
     volumes:
       - pertindetu-data:/var/lib/postgresql/data/pgdata
+    networks:
+      - pertindetu-network
+
+  # ---------------------------------
+  # 2. SERVIÇO DA API (SPRING BOOT)
+  # ---------------------------------
+  pertindetu-api:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      # Sobrescreve a URL do application.properties para usar a rede interna do Docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pertindetu-db:5432/${DB_NAME}
+    depends_on:
+      - pertindetu-db
+    networks:
+      - pertindetu-network
 
 volumes:
   pertindetu-data:
+
+# Cria uma rede interna para os dois conversarem com segurança
+networks:
+  pertindetu-network:
+    driver: bridge

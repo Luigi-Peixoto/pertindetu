@@ -89,3 +89,4 @@ jacoco.exec
 *.bak
 *.orig
 *.rej
+.env
