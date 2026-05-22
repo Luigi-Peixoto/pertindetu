@@ -53,7 +53,9 @@ public class JwtService {
 
     public List<SimpleGrantedAuthority> getAuthorities(DecodedJWT decodedJWT) {
         String role = decodedJWT.getClaim("role").asString();
-        if (role == null) return List.of();
+        if (role == null){
+            return List.of();
+        }
         return List.of(new SimpleGrantedAuthority(role));
     }
 }

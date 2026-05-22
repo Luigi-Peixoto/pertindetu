@@ -1,3 +1,4 @@
+---
 services:
   # ---------------------------------
   # 1. SERVIÇO DO BANCO DE DADOS
@@ -26,8 +27,8 @@ services:
     env_file:
       - .env
     environment:
-      # Sobrescreve a URL do application.properties para usar a rede interna do Docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://pertindetu-db:5432/${DB_NAME}
+      SPRING_DATASOURCE_URL: >-
+        jdbc:postgresql://pertindetu-db:5432/${DB_NAME}
     depends_on:
       - pertindetu-db
     networks:
