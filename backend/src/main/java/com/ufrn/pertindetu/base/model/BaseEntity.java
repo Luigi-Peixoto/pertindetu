@@ -1,6 +1,9 @@
 package com.ufrn.pertindetu.base.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -81,15 +84,18 @@ public abstract class BaseEntity implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o){
             return true;
-        if (o == null || getClass() != o.getClass())
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         BaseEntity that = (BaseEntity) o;
         Long myId = getId();
         Long thatId = that.getId();
-        if (myId == null || thatId == null)
+        if (myId == null || thatId == null){
             return false;
+        }
         return myId.equals(thatId);
     }
 
