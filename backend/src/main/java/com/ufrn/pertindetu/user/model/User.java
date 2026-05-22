@@ -39,6 +39,12 @@ public class User extends BaseEntity {
     @Column(name = "phone", length = 20)
     private String phone;
 
+    @Column(name = "reset_token", length = 255)
+    private String resetToken;
+
+    @Column(name = "reset_token_expiry")
+    private java.time.ZonedDateTime resetTokenExpiry;
+
     @Override
     public Long getId() { return id; }
 
@@ -59,4 +65,10 @@ public class User extends BaseEntity {
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
+
+    public String getResetToken() { return resetToken; }
+    public void setResetToken(String resetToken) { this.resetToken = resetToken; }
+
+    public java.time.ZonedDateTime getResetTokenExpiry() { return resetTokenExpiry; }
+    public void setResetTokenExpiry(java.time.ZonedDateTime resetTokenExpiry) { this.resetTokenExpiry = resetTokenExpiry; }
 }
