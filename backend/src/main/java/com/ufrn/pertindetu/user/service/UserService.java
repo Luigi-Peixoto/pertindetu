@@ -19,16 +19,52 @@ public class UserService implements GenericService<User, UserDTO> {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final com.ufrn.pertindetu.base.utils.email.EmailService emailService;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, com.ufrn.pertindetu.base.utils.email.EmailService emailService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = new BCryptPasswordEncoder();
+        this.emailService = emailService;
     }
 
     @Override
     public GenericRepository<User> getRepository() {
         return userRepository;
+    }
+
+    public void initiatePasswordReset(String email, String frontendBaseUrl) {
+        var userOpt = userRepository.findByEmailAndActiveTrue(email);
+        if (userOpt.isEmpty()) {
+            // For security, do not reveal whether the email exists. Just return silently.
+            return;
+        }
+
+        var user = userOpt.get();
+        var token = java.util.UUID.randomUUID().toString();
+        user.setResetToken(token);
+        user.setResetTokenExpiry(java.time.ZonedDateTime.now().plusHours(1));
+        userRepository.save(user);
+
+        String resetUrl = frontendBaseUrl + "/reset-password?token=" + token;
+        emailService.sendPasswordReset(user, resetUrl);
+    }
+
+    public void confirmPasswordReset(String token, String newPassword) {
+        var userOpt = userRepository.findByResetToken(token);
+        if (userOpt.isEmpty()) {
+            throw new BusinessException("Invalid password reset token.", HttpStatus.BAD_REQUEST);
+        }
+
+        var user = userOpt.get();
+        if (user.getResetTokenExpiry() == null || user.getResetTokenExpiry().isBefore(java.time.ZonedDateTime.now())) {
+            throw new BusinessException("Password reset token has expired.", HttpStatus.BAD_REQUEST);
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        user.setResetToken(null);
+        user.setResetTokenExpiry(null);
+        userRepository.save(user);
     }
 
     @Override
