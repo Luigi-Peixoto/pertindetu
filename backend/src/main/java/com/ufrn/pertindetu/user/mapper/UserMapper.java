@@ -18,6 +18,8 @@ public interface UserMapper extends DtoMapper<User, UserDTO> {
 
     @Override
     @Mapping(target = "passwordHash", ignore = true)
+    @Mapping(target = "resetToken", ignore = true)
+    @Mapping(target = "resetTokenExpiry", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "active", ignore = true)

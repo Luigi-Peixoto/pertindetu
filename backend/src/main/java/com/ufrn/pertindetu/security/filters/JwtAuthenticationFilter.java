@@ -3,7 +3,6 @@ package com.ufrn.pertindetu.security.filters;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ufrn.pertindetu.base.dto.UserDetailsInfo;
 import com.ufrn.pertindetu.security.utils.JwtService;
-import com.ufrn.pertindetu.security.utils.ValidateTokenInCognito;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,9 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
 
-    @Autowired
-    private ValidateTokenInCognito validateTokenInCognito;
-
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -52,12 +48,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 final var jwt = authHeader.substring(7);
-                final DecodedJWT decodedJWT = validateTokenInCognito.validateToken(jwt);
+                final DecodedJWT decodedJWT = jwtService.decode(jwt);
                 if (Objects.nonNull(decodedJWT)) {
                     authenticateUser(request, decodedJWT);
                 }
             }
             putUserEmailInMdc();
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
             filterChain.doFilter(request, response);
         } finally {
             MDC.clear();

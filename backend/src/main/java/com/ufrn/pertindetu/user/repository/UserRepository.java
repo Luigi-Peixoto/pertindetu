@@ -11,5 +11,9 @@ public interface UserRepository extends GenericRepository<User> {
 
     Optional<User> findByEmailAndActiveTrue(String email);
 
+    Optional<User> findByResetToken(String resetToken);
+
+    Optional<User> findByEmail(String email);
+
     boolean existsByEmailAndActiveTrue(String email);
 }

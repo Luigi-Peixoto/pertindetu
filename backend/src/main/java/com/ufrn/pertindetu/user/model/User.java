@@ -2,7 +2,15 @@ package com.ufrn.pertindetu.user.model;
 
 import com.ufrn.pertindetu.base.model.BaseEntity;
 import com.ufrn.pertindetu.user.model.enums.UserRole;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -39,6 +47,12 @@ public class User extends BaseEntity {
     @Column(name = "phone", length = 20)
     private String phone;
 
+    @Column(name = "reset_token", length = 255)
+    private String resetToken;
+
+    @Column(name = "reset_token_expiry")
+    private java.time.ZonedDateTime resetTokenExpiry;
+
     @Override
     public Long getId() { return id; }
 
@@ -59,4 +73,10 @@ public class User extends BaseEntity {
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
+
+    public String getResetToken() { return resetToken; }
+    public void setResetToken(String resetToken) { this.resetToken = resetToken; }
+
+    public java.time.ZonedDateTime getResetTokenExpiry() { return resetTokenExpiry; }
+    public void setResetTokenExpiry(java.time.ZonedDateTime resetTokenExpiry) { this.resetTokenExpiry = resetTokenExpiry; }
 }

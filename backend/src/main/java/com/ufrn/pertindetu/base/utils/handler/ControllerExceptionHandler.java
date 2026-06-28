@@ -350,7 +350,7 @@ public class ControllerExceptionHandler {
         StringBuilder sb = new StringBuilder();
         for (JsonMappingException.Reference ref : path) {
             if (ref.getFieldName() != null) {
-                if (!sb.isEmpty()) sb.append('.');
+                if (!sb.isEmpty()){ sb.append('.');}
                 sb.append(ref.getFieldName());
             }
             if (ref.getIndex() >= 0) {
@@ -362,7 +362,7 @@ public class ControllerExceptionHandler {
 
     private static <T extends Throwable> T findCauseInChain(Throwable ex, Class<T> type) {
         for (Throwable t = ex; t != null; t = t.getCause()) {
-            if (type.isInstance(t)) return type.cast(t);
+            if (type.isInstance(t)){ return type.cast(t);}
         }
         return null;
     }
