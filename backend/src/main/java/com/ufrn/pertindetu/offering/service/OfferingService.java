@@ -1,5 +1,8 @@
 package com.ufrn.pertindetu.offering.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ufrn.pertindetu.base.mappers.DtoMapper;
@@ -29,5 +32,16 @@ public class OfferingService implements GenericService<Offering, OfferingDTO> {
     @Override
     public DtoMapper<Offering, OfferingDTO> getDtoMapper() {
         return mapper;
+    }
+
+    /**
+     * Search active offerings by optional category and/or neighborhood.
+     */
+    public Page<OfferingDTO> search(String category, String neighborhood,
+                                    Pageable pageable) {
+        Page<Offering> page =
+                repository.search(category, neighborhood, pageable);
+        return new PageImpl<>(mapper.toDto(page.getContent()), pageable,
+                page.getTotalElements());
     }
 }
