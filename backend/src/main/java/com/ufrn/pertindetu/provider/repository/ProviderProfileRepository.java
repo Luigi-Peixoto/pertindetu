@@ -1,15 +1,16 @@
 package com.ufrn.pertindetu.provider.repository;
 
-import com.ufrn.pertindetu.provider.model.ProviderProfile;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
-@Repository
-public interface ProviderProfileRepository extends JpaRepository<ProviderProfile, Long> {
+import org.springframework.stereotype.Repository;
 
-    // Busca a vitrine baseada no ID do usuário logado
+import com.ufrn.pertindetu.base.repository.GenericRepository;
+import com.ufrn.pertindetu.provider.model.ProviderProfile;
+
+@Repository
+public interface ProviderProfileRepository
+        extends GenericRepository<ProviderProfile> {
+
     Optional<ProviderProfile> findByUserId(Long userId);
 
     boolean existsByUserId(Long userId);
