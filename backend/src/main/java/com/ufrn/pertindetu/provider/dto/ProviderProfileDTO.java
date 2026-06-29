@@ -1,12 +1,10 @@
 package com.ufrn.pertindetu.provider.dto;
 
 import com.ufrn.pertindetu.base.dto.EntityDTO;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
 public class ProviderProfileDTO implements EntityDTO {
 
     private Long id;
@@ -46,5 +44,77 @@ public class ProviderProfileDTO implements EntityDTO {
         response.active = this.active;
         response.createdAt = this.createdAt;
         return response;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getWhatsappPhone() {
+        return whatsappPhone;
+    }
+
+    public void setWhatsappPhone(String whatsappPhone) {
+        this.whatsappPhone = whatsappPhone;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }
