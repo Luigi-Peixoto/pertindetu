@@ -477,7 +477,9 @@ h2 {
 
 .reviewForm input,
 .reviewForm textarea,
-.messageComposer input {
+.messageComposer input,
+.portfolioUpload input,
+.historySearch input {
   background: #f8faf5;
   border: 1px solid #dbe2d5;
   border-radius: 8px;
@@ -488,6 +490,67 @@ h2 {
 .reviewForm textarea {
   min-height: 104px;
   resize: vertical;
+}
+
+.portfolioUpload {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 180px minmax(0, 1fr) auto;
+}
+
+.uploadDropzone {
+  align-items: center;
+  background: #f8faf5;
+  border: 1px dashed #b9c7b5;
+  border-radius: 8px;
+  color: #34573d;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  min-height: 116px;
+  overflow: hidden;
+  padding: 12px;
+  text-align: center;
+}
+
+.uploadDropzone input {
+  display: none;
+}
+
+.uploadDropzone img {
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.portfolioGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.portfolioPhoto {
+  border: 1px solid #edf0e9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.portfolioPhoto img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  width: 100%;
+}
+
+.portfolioPhoto div {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+}
+
+.portfolioPhoto span {
+  color: #728077;
+  font-size: 0.86rem;
 }
 
 .stickyPanel {
@@ -544,6 +607,25 @@ h2 {
   padding: 16px;
 }
 
+.historySearch {
+  align-items: center;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: auto 1fr;
+  margin-bottom: 12px;
+}
+
+.historySearch input {
+  min-width: 0;
+}
+
+.historyFilter {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 12px;
+  width: 100%;
+}
+
 .conversationItem {
   align-items: center;
   background: transparent;
@@ -552,7 +634,7 @@ h2 {
   color: #17201a;
   display: grid;
   gap: 10px;
-  grid-template-columns: 48px 1fr auto;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
   min-height: 72px;
   padding: 10px;
   text-align: left;
@@ -575,6 +657,14 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.conversationMeta {
+  align-items: end;
+  color: #647064;
+  display: grid;
+  gap: 4px;
+  justify-items: end;
 }
 
 .conversationItem mark {
@@ -605,6 +695,15 @@ h2 {
 .chatHeader p {
   color: #647064;
   margin-bottom: 0;
+}
+
+.chatHeader span {
+  align-items: center;
+  color: #728077;
+  display: inline-flex;
+  font-size: 0.86rem;
+  gap: 5px;
+  margin-top: 3px;
 }
 
 .messageStream {
@@ -697,9 +796,14 @@ h2 {
   }
 
   .searchBar,
-  .messageComposer {
+  .messageComposer,
+  .portfolioUpload {
     grid-template-columns: 1fr;
     padding: 12px;
+  }
+
+  .portfolioGrid {
+    grid-template-columns: 1fr;
   }
 
   .searchBar svg {

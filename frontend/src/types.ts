@@ -8,6 +8,13 @@ export type Review = {
   createdAt: string;
 };
 
+export type PortfolioPhoto = {
+  id: string;
+  title: string;
+  imageUrl: string;
+  uploadedAt: string;
+};
+
 export type Provider = {
   id: string;
   name: string;
@@ -21,6 +28,7 @@ export type Provider = {
   completedJobs: number;
   bio: string;
   specialties: string[];
+  portfolio: PortfolioPhoto[];
   reviews: Review[];
 };
 
@@ -57,6 +65,8 @@ export type Conversation = {
   providerAvatarUrl: string;
   offeringId?: string;
   offeringTitle?: string;
+  updatedAt: string;
+  status: "active" | "archived";
   unread: number;
   messages: ConversationMessage[];
 };

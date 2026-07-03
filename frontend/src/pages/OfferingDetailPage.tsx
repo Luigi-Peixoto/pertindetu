@@ -63,7 +63,7 @@ export function OfferingDetailPage() {
             <UserRound size={18} />
             Ver perfil
           </Link>
-          <Link className="primaryButton" to="/mensagens">
+          <Link className="primaryButton" to={`/mensagens?providerId=${offering.providerId}&offeringId=${offering.id}`}>
             <MessageCircle size={18} />
             Enviar mensagem
           </Link>

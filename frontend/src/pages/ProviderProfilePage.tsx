@@ -4,6 +4,7 @@ import { BadgeCheck, MessageCircle, Timer } from "lucide-react";
 import { api } from "../api/client";
 import { LoadingState } from "../components/LoadingState";
 import { OfferingCard } from "../components/OfferingCard";
+import { PortfolioSection } from "../components/PortfolioSection";
 import { ReviewForm } from "../components/ReviewForm";
 import { ReviewList } from "../components/ReviewList";
 import { Stars } from "../components/Stars";
@@ -35,7 +36,7 @@ export function ProviderProfilePage() {
               <span>{formatRating(rating)} ({profile.reviews.length} avaliacoes)</span>
             </div>
           </div>
-          <Link className="primaryButton" to="/mensagens">
+          <Link className="primaryButton" to={`/mensagens?providerId=${profile.id}`}>
             <MessageCircle size={18} />
             Conversar
           </Link>
@@ -66,6 +67,13 @@ export function ProviderProfilePage() {
           </section>
 
           <ReviewList reviews={profile.reviews} />
+          <PortfolioSection
+            photos={profile.portfolio}
+            onUpload={async (payload) => {
+              const photo = await api.uploadPortfolioPhoto(profile.id, payload);
+              setProfile({ ...profile, portfolio: [photo, ...profile.portfolio] });
+            }}
+          />
           <ReviewForm
             onSubmit={async (payload) => {
               const updated = await api.review({ targetType: "provider", targetId: profile.id, ...payload }) as Provider;

@@ -14,6 +14,20 @@ export const providers: Provider[] = [
     completedJobs: 128,
     bio: "Atendimento com hora marcada, materiais esterilizados e foco em realcar a beleza natural de cada cliente.",
     specialties: ["sobrancelhas", "maquiagem", "eventos", "noivas"],
+    portfolio: [
+      {
+        id: "pf-ana-1",
+        title: "Make para formatura",
+        imageUrl: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=900&q=80",
+        uploadedAt: "2026-06-20"
+      },
+      {
+        id: "pf-ana-2",
+        title: "Sobrancelha natural",
+        imageUrl: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=900&q=80",
+        uploadedAt: "2026-06-11"
+      }
+    ],
     reviews: [
       { id: "r-1", author: "Marina", rating: 5, comment: "Atendimento pontual e resultado impecavel.", createdAt: "2026-06-18" },
       { id: "r-2", author: "Camila", rating: 4, comment: "Gostei muito do cuidado e da explicacao.", createdAt: "2026-05-30" }
@@ -32,6 +46,20 @@ export const providers: Provider[] = [
     completedJobs: 214,
     bio: "Servicos rapidos para pequenos reparos, instalacoes eletricas e manutencao preventiva em casas e apartamentos.",
     specialties: ["eletrica", "chuveiro", "tomadas", "manutencao"],
+    portfolio: [
+      {
+        id: "pf-joao-1",
+        title: "Quadro revisado",
+        imageUrl: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=900&q=80",
+        uploadedAt: "2026-06-14"
+      },
+      {
+        id: "pf-joao-2",
+        title: "Luminaria instalada",
+        imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&w=900&q=80",
+        uploadedAt: "2026-05-28"
+      }
+    ],
     reviews: [
       { id: "r-3", author: "Rafael", rating: 5, comment: "Resolveu a instalacao no mesmo dia.", createdAt: "2026-06-02" },
       { id: "r-4", author: "Lorena", rating: 5, comment: "Muito organizado e transparente no preco.", createdAt: "2026-04-21" }
@@ -50,6 +78,20 @@ export const providers: Provider[] = [
     completedJobs: 76,
     bio: "Bolos, brownies e caixas de doces feitos com ingredientes frescos para presentes, festas e eventos pequenos.",
     specialties: ["bolos", "brownies", "presentes", "festas"],
+    portfolio: [
+      {
+        id: "pf-luiza-1",
+        title: "Caixa presente",
+        imageUrl: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=80",
+        uploadedAt: "2026-06-22"
+      },
+      {
+        id: "pf-luiza-2",
+        title: "Mesa de doces",
+        imageUrl: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=900&q=80",
+        uploadedAt: "2026-06-07"
+      }
+    ],
     reviews: [
       { id: "r-5", author: "Patricia", rating: 5, comment: "O brownie chegou lindo e muito saboroso.", createdAt: "2026-06-12" }
     ]
@@ -128,6 +170,8 @@ export const conversations: Conversation[] = [
     providerAvatarUrl: providers[0].avatarUrl,
     offeringId: "o-make",
     offeringTitle: "Maquiagem social em domicilio",
+    updatedAt: "2026-07-02T13:22:00",
+    status: "active",
     unread: 1,
     messages: [
       { id: "m-1", sender: "client", text: "Oi, voce tem horario para sabado a tarde?", createdAt: "2026-07-02T13:15:00" },
@@ -141,10 +185,27 @@ export const conversations: Conversation[] = [
     providerAvatarUrl: providers[1].avatarUrl,
     offeringId: "o-eletrica",
     offeringTitle: "Instalacao de tomadas e luminarias",
+    updatedAt: "2026-07-01T09:18:00",
+    status: "active",
     unread: 0,
     messages: [
       { id: "m-3", sender: "client", text: "Preciso trocar duas tomadas no apartamento.", createdAt: "2026-07-01T09:10:00" },
       { id: "m-4", sender: "provider", text: "Consigo avaliar hoje no fim da tarde.", createdAt: "2026-07-01T09:18:00" }
+    ]
+  },
+  {
+    id: "c-luiza",
+    providerId: "p-luiza",
+    providerName: "Luiza Castro",
+    providerAvatarUrl: providers[2].avatarUrl,
+    offeringId: "o-brownie",
+    offeringTitle: "Caixa com 12 brownies artesanais",
+    updatedAt: "2026-06-29T17:42:00",
+    status: "archived",
+    unread: 0,
+    messages: [
+      { id: "m-5", sender: "client", text: "A caixa com 12 brownies ainda esta disponivel?", createdAt: "2026-06-29T17:35:00" },
+      { id: "m-6", sender: "provider", text: "Esta sim. Posso entregar amanha no Tirol.", createdAt: "2026-06-29T17:42:00" }
     ]
   }
 ];

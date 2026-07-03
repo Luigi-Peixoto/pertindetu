@@ -63,7 +63,7 @@ export const handlers = [
 
   http.get("/api/messages", async () => {
     await delay(180);
-    return HttpResponse.json(conversations);
+    return HttpResponse.json([...conversations].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)));
   }),
 
   http.post("/api/messages/:conversationId", async ({ params, request }) => {
@@ -78,10 +78,73 @@ export const handlers = [
       createdAt: new Date().toISOString()
     };
 
+    const reply: ConversationMessage = {
+      id: `m-${Date.now()}-reply`,
+      sender: "provider",
+      text: "Recebi sua mensagem. Ja te respondo com os detalhes.",
+      createdAt: new Date(Date.now() + 1000).toISOString()
+    };
+
     conversation.messages.push(message);
+    conversation.messages.push(reply);
+    conversation.updatedAt = reply.createdAt;
+    conversation.status = "active";
     conversation.unread = 0;
 
-    return HttpResponse.json(message, { status: 201 });
+    return HttpResponse.json(conversation, { status: 201 });
+  }),
+
+  http.post("/api/conversations", async ({ request }) => {
+    const body = (await request.json()) as { providerId: string; offeringId?: string };
+    const provider = providers.find((item) => item.id === body.providerId);
+    if (!provider) return new HttpResponse(null, { status: 404 });
+
+    const offering = offerings.find((item) => item.id === body.offeringId);
+    const existing = conversations.find((item) => item.providerId === provider.id && item.offeringId === offering?.id);
+    if (existing) {
+      existing.status = "active";
+      return HttpResponse.json(existing);
+    }
+
+    const now = new Date().toISOString();
+    const conversation = {
+      id: `c-${provider.id}-${Date.now()}`,
+      providerId: provider.id,
+      providerName: provider.name,
+      providerAvatarUrl: provider.avatarUrl,
+      offeringId: offering?.id,
+      offeringTitle: offering?.title,
+      updatedAt: now,
+      status: "active" as const,
+      unread: 0,
+      messages: [
+        {
+          id: `m-${Date.now()}-hello`,
+          sender: "provider" as const,
+          text: "Oi! Me manda sua duvida por aqui e combinamos os detalhes.",
+          createdAt: now
+        }
+      ]
+    };
+
+    conversations.unshift(conversation);
+    return HttpResponse.json(conversation, { status: 201 });
+  }),
+
+  http.post("/api/providers/:id/portfolio", async ({ params, request }) => {
+    const provider = providers.find((item) => item.id === params.id);
+    if (!provider) return new HttpResponse(null, { status: 404 });
+
+    const body = (await request.json()) as { title: string; imageUrl: string };
+    const photo = {
+      id: `pf-${Date.now()}`,
+      title: body.title || "Nova foto",
+      imageUrl: body.imageUrl,
+      uploadedAt: new Date().toISOString().slice(0, 10)
+    };
+
+    provider.portfolio.unshift(photo);
+    return HttpResponse.json(photo, { status: 201 });
   }),
 
   http.post("/api/reviews", async ({ request }) => {

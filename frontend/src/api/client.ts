@@ -1,4 +1,4 @@
-import type { Conversation, Offering, Provider, SearchResponse } from "../types";
+import type { Conversation, Offering, PortfolioPhoto, Provider, SearchResponse } from "../types";
 
 const parse = async <T>(responsePromise: Promise<Response>): Promise<T> => {
   const response = await responsePromise;
@@ -16,11 +16,23 @@ export const api = {
   provider: (id: string) =>
     parse<Provider & { offerings: Offering[] }>(fetch(`/api/providers/${id}`)),
   conversations: () => parse<Conversation[]>(fetch("/api/messages")),
+  startConversation: (payload: { providerId: string; offeringId?: string }) =>
+    parse<Conversation>(fetch("/api/conversations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })),
   sendMessage: (conversationId: string, text: string) =>
-    parse<unknown>(fetch(`/api/messages/${conversationId}`, {
+    parse<Conversation>(fetch(`/api/messages/${conversationId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text })
+    })),
+  uploadPortfolioPhoto: (providerId: string, payload: { title: string; imageUrl: string }) =>
+    parse<PortfolioPhoto>(fetch(`/api/providers/${providerId}/portfolio`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     })),
   review: (payload: {
     targetType: "offering" | "provider";
