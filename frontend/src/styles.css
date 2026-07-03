@@ -131,12 +131,13 @@ h2 {
 
 .searchBar {
   align-items: center;
+  background: #ffffff;
   border: 1px solid #cbd4c7;
   border-radius: 8px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   min-height: 58px;
-  padding: 0 8px 0 16px;
+  padding: 6px 6px 6px 16px;
 }
 
 .searchBar input,
@@ -149,12 +150,33 @@ h2 {
   width: 100%;
 }
 
-.searchBar button,
 .primaryButton {
   background: #1f5136;
   border: 1px solid #1f5136;
   color: #ffffff;
   font-weight: 800;
+}
+
+.searchButton {
+  align-items: center;
+  background: #1f5136;
+  border: 1px solid #1f5136;
+  border-radius: 7px;
+  color: #ffffff;
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+  min-height: 46px;
+  min-width: 118px;
+  padding: 0 18px;
+  font-weight: 850;
+  transition: background 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+}
+
+.searchButton:hover {
+  background: #173f2a;
+  box-shadow: 0 8px 18px rgba(31, 81, 54, 0.18);
+  transform: translateY(-1px);
 }
 
 .primaryButton:disabled {
@@ -194,6 +216,14 @@ h2 {
 
 .suggestionRow button {
   border-radius: 8px;
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.suggestionRow button:hover,
+.suggestionRow button.active {
+  background: #1f5136;
+  border-color: #1f5136;
+  color: #ffffff;
 }
 
 .filtersBar {
@@ -800,6 +830,10 @@ h2 {
   .portfolioUpload {
     grid-template-columns: 1fr;
     padding: 12px;
+  }
+
+  .searchButton {
+    width: 100%;
   }
 
   .portfolioGrid {

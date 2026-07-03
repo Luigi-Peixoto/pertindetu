@@ -1,12 +1,18 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { Filter, Search, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, Filter, Search, SlidersHorizontal } from "lucide-react";
 import { api } from "../api/client";
 import { EmptyState, LoadingState } from "../components/LoadingState";
 import { OfferingCard } from "../components/OfferingCard";
 import { ProviderMiniCard } from "../components/ProviderMiniCard";
 import type { SearchResponse } from "../types";
 
-const suggestions = ["maquiagem", "eletrica", "brownie", "domicilio", "Ponta Negra"];
+const suggestions = [
+  { label: "Maquiagem", query: "maquiagem", type: "service", category: "Beleza" },
+  { label: "Eletrica", query: "eletrica", type: "service", category: "Manutencao" },
+  { label: "Brownie", query: "brownie", type: "product", category: "Alimentos" },
+  { label: "Domicilio", query: "domicilio", type: "service", category: "all" },
+  { label: "Ponta Negra", query: "Ponta Negra", type: "all", category: "all" }
+];
 
 export function SearchPage() {
   const [query, setQuery] = useState("");
@@ -33,7 +39,15 @@ export function SearchPage() {
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    setSubmittedQuery(query);
+    setSubmittedQuery(query.trim());
+  };
+
+  const applyQuickFilter = (suggestion: (typeof suggestions)[number]) => {
+    setQuery(suggestion.query);
+    setSubmittedQuery(suggestion.query);
+    setType(suggestion.type);
+    setCategory(suggestion.category);
+    setSort("relevance");
   };
 
   const categories = ["all", "Beleza", "Manutencao", "Alimentos"];
@@ -49,13 +63,21 @@ export function SearchPage() {
         <form className="searchBar" onSubmit={submit}>
           <Search size={20} />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Busque por servico, produto, bairro ou prestador" />
-          <button type="submit">Buscar</button>
+          <button className="searchButton" type="submit">
+            Buscar
+            <ArrowRight size={18} />
+          </button>
         </form>
 
         <div className="suggestionRow">
           {suggestions.map((item) => (
-            <button key={item} type="button" onClick={() => { setQuery(item); setSubmittedQuery(item); }}>
-              {item}
+            <button
+              key={item.label}
+              className={submittedQuery === item.query && type === item.type && category === item.category ? "active" : ""}
+              type="button"
+              onClick={() => applyQuickFilter(item)}
+            >
+              {item.label}
             </button>
           ))}
         </div>
